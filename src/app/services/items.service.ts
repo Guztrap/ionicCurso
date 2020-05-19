@@ -36,4 +36,8 @@ export class ItemsService {
 
     return this.httpClient.put(this.endpoint + '/' + item._id, itemForService);
   }
+
+  deleteItem(id: string){
+    return this.httpClient.delete(this.endpoint + '/' + id);
+  }
 }

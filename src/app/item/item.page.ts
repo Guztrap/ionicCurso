@@ -65,6 +65,18 @@ export class ItemPage implements OnInit {
     }
   }
 
+  delete(){
+    if (this.id){
+      this.itemsService.deleteItem(this.id).subscribe(res => {
+        alert('Elemento borrado');
+        this.cleanAndNavigate();
+      }, err => {
+        alert('Error al borrar');
+        console.log(err);
+      });
+    }
+  }
+
   cleanAndNavigate(){
     this.formItems.get('title').setValue('');
     this.formItems.get('quantity').setValue('');
