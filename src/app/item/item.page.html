@@ -6,12 +6,12 @@
 
 <ion-content [formGroup]= "formItems">
   <ion-item>
-    <ion-label position="fixed">Item:</ion-label>
-    <ion-input type="text" formControlName= "item"></ion-input>
+    <ion-label position="fixed">Titulo:</ion-label>
+    <ion-input type="text" formControlName= "title"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="fixed">Count</ion-label>
-    <ion-input type ="number" formControlName= "count"></ion-input>
+    <ion-label position="fixed">Cantidad:</ion-label>
+    <ion-input type ="number" formControlName= "quantity"></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)= "addCount()" [disabled]="formItems.invalid">Agregar</ion-button>
+  <ion-button expand="full" (click)= "save()" [disabled]="formItems.invalid">Agregar</ion-button>
 </ion-content>

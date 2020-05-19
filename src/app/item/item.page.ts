@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ItemsService } from '../services/items.service';
+import { Item } from '../models/item.model';
 
 @Component({
   selector: 'app-item',
@@ -8,31 +12,62 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ItemPage implements OnInit {
   formItems: FormGroup;
-  count = 0;
-  objDict = {};
+  id: string;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private httpClient: HttpClient,
+              private router: Router,
+              private itemsService: ItemsService,
+              private route: ActivatedRoute) {
+
     this.formItems = this.fb.group({
-      item: ['', Validators.required],
-      count: ['', [Validators.required, Validators.min(1)]]
+      title: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.min(1)]]
     });
 
-    this.objDict = {};
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+
+      if (params.id){
+        this.id = params.id;
+        this.itemsService.getSingleItem(params.id).subscribe(item => {
+          this.formItems.get('title').setValue(item.title);
+          this.formItems.get('quantity').setValue(item.quantity);
+        });
+      }
+    });
    }
 
   ngOnInit() {
   }
 
-  addCount(){
-    this.count = this.formItems.get('count').value;
-    let item = this.formItems.get('item').value;
+  save(){
+    let item = new Item();
+    item.quantity = this.formItems.get('quantity').value;
+    item.title = this.formItems.get('title').value;
 
-    if (item in this.objDict) {
-      this.count = this.objDict[item] + this.formItems.get('count').value;
+    if (this.id){
+      this.itemsService.updateItem(item).subscribe(res => {
+        this.cleanAndNavigate();
+      }, err => {
+        alert('Error al actualizar');
+        console.log(err);
+      });
     }
-
-    this.objDict[item] = this.count;
-    console.log(this.objDict);
+    else
+    {
+      this.itemsService.saveItem(item).subscribe(res => {
+        this.cleanAndNavigate();
+      }, err => {
+        alert('Ocurrio un error al guardar el item');
+        console.log(err);
+      });
+    }
   }
 
+  cleanAndNavigate(){
+    this.formItems.get('title').setValue('');
+    this.formItems.get('quantity').setValue('');
+    this.router.navigate(['list']);
+  }
 }
