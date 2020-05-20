@@ -30,16 +30,20 @@ export class ItemPage implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       console.log(params);
-
       if (params.id){
         this.id = params.id;
         this.itemsService.getSingleItem(params.id).subscribe(item => {
           this.formItems.get('title').setValue(item.title);
           this.formItems.get('quantity').setValue(item.quantity);
           this.image = item.image;
+          this.itemsService.setisLoading(false);
+        }, err => {
+          this.itemsService.setisLoading(false);
         });
       }
     });
+
+    this.itemsService.setisLoading(false);
    }
 
   ngOnInit() {
@@ -53,6 +57,7 @@ export class ItemPage implements OnInit {
     if (this.image){
       item.image = this.image;
     }
+    this.itemsService.setisLoading(true);
 
     if (this.id){
       this.itemsService.updateItem(item).subscribe(res => {
@@ -60,6 +65,7 @@ export class ItemPage implements OnInit {
       }, err => {
         alert('Error al actualizar');
         console.log(err);
+        this.itemsService.setisLoading(false);
       });
     }
     else
@@ -69,18 +75,21 @@ export class ItemPage implements OnInit {
       }, err => {
         alert('Ocurrio un error al guardar el item');
         console.log(err);
+        this.itemsService.setisLoading(false);
       });
     }
   }
 
   delete(){
     if (this.id){
+      this.itemsService.setisLoading(true);
       this.itemsService.deleteItem(this.id).subscribe(res => {
         alert('Elemento borrado');
         this.cleanAndNavigate();
       }, err => {
         alert('Error al borrar');
         console.log(err);
+        this.itemsService.setisLoading(false);
       });
     }
   }
@@ -88,6 +97,7 @@ export class ItemPage implements OnInit {
   cleanAndNavigate(){
     this.formItems.get('title').setValue('');
     this.formItems.get('quantity').setValue('');
+    this.itemsService.setisLoading(true);
     this.router.navigate(['list']);
   }
 

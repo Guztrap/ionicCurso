@@ -21,14 +21,19 @@ export class ListPage implements OnInit {
     }, err => {
       alert('Error al hacer el get');
       console.log(err);
+      this.itemService.setisLoading(false);
     });
+
+    this.itemService.setisLoading(false);
   }
 
   new(){
+    this.itemService.setisLoading(true);
     this.router.navigate(['item']);
   }
 
   edit(item: Item){
+    this.itemService.setisLoading(true);
     this.router.navigateByUrl('/item?id=' + item._id);
   }
 }

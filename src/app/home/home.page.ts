@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ItemsService } from '../services/items.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private itemService: ItemsService) {}
 
   goToAdd(){
+    this.itemService.setisLoading(true);
     this.router.navigate(['item']);
   }
 
