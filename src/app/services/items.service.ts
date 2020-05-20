@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class ItemsService {
   private isLoading: Subject<boolean> = new Subject<boolean>();
   items: Item[] = [];
-  endpoint = 'https://crudcrud.com/api/6a181d39979f4d1eba1f5e61d1496afa/items';
+  endpoint = 'https://crudcrud.com/api/2c40a14e738f498c9be4604b0a3ad986/items';
 
   constructor(private httpClient: HttpClient) { }
 
