@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="primary">
-      <ion-button color="secondary" (click) = "delete()">
+      <ion-button color="secondary" (click) = "delete()" *ngIf="id">
         <ion-icon name="trash-bin-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -17,6 +17,14 @@
   <ion-item>
     <ion-label position="fixed">Cantidad:</ion-label>
     <ion-input type ="number" formControlName= "quantity"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-button color="secondary" (click) = "addPhoto()">
+      <ion-icon name="image-outline"></ion-icon>
+    </ion-button>
+  </ion-item> 
+  <ion-item>
+    <img [src]="image"/>
   </ion-item>
   <ion-button expand="full" (click)= "save()" [disabled]="formItems.invalid">Agregar</ion-button>
 </ion-content>

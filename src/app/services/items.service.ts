@@ -14,7 +14,8 @@ export class ItemsService {
   saveItem(item: Item){
     let itemForService = {
       title: item.title,
-      quantity: item.quantity.toString()
+      quantity: item.quantity.toString(),
+      image: item.image
     };
 
     return this.httpClient.post(this.endpoint, itemForService);
@@ -31,7 +32,8 @@ export class ItemsService {
   updateItem(item: Item){
     let itemForService = {
       title: item.title,
-      quantity: item.quantity.toString()
+      quantity: item.quantity.toString(),
+      item: item.image
     };
 
     return this.httpClient.put(this.endpoint + '/' + item._id, itemForService);
